@@ -1,23 +1,35 @@
-package com.tarefas;
+package com.cairo.sergio.TranDx;
 
 import android.os.Build;
 import android.os.Bundle;
-
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
-
+import com.google.android.gms.common.ConnectionResult; // Adicione esta linha
+import com.google.android.gms.common.GoogleApiAvailability; // Adicione esta linha
+import com.facebook.react.modules.i18nmanager.I18nUtil; // Adicione esta linha
+import com.dieam.reactnativepushnotification.ReactNativePushNotification;
 import expo.modules.ReactActivityDelegateWrapper;
 
 public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ReactNativePushNotification.setActivity(this); // Adicione esta linha
+    I18nUtil sharedI18nUtilInstance = I18nUtil.getInstance(); // Adicione esta linha
+    sharedI18nUtilInstance.allowRTL(getApplicationContext(), false); 
     // Set the theme to AppTheme BEFORE onCreate to support 
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
-    super.onCreate(null);
+    // super.onCreate(null);
+    GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this)
+      .addOnCompleteListener(task -> {
+        if (task.isSuccessful()) {
+            ReactNativePushNotification.getSavedChannel(this);
+        }
+    });
   }
 
   /**

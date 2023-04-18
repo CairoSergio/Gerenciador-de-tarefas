@@ -1,4 +1,4 @@
-package com.tarefas;
+package com.cairo.sergio.TranDx;
 
 import android.app.Application;
 import android.content.res.Configuration;
